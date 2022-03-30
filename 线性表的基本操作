@@ -1,0 +1,107 @@
+#include<iostream>
+#include<assert.h>
+
+using namespace std;
+#define maxlength 10
+typedef int Elemtype;
+//线性表的基本要素和操作:1.初始化 2.插入 3.删除 4.查找
+
+struct Seqlist
+{
+	int length=maxlength;
+	int Seqlistlength;
+	Elemtype* data;
+};
+
+void InitSeqlist(Seqlist *myseq)//初始化线性表
+{
+	myseq->Seqlistlength = 6;
+	myseq->data = (Elemtype*)malloc(maxlength * sizeof(Elemtype));
+
+}
+
+int Findaim(Seqlist *myseq,Elemtype val)
+{
+	int mid;
+	int left = 0;
+	int right = myseq->Seqlistlength-1;
+	for (; left <= right;)
+	{
+		mid = (left+right) / 2;
+		if (myseq->data[mid] == val)
+		{
+			return val;
+		}
+		else if (val>myseq->data[mid])
+		{
+			left = mid+1;
+		}
+		else if(val < myseq->data[mid])
+		{
+			right = mid-1;
+		
+		}
+	}
+	return 0;
+}
+
+void intodata(Seqlist *myseq,Elemtype val,Elemtype val2)
+{
+	assert(myseq->data!=NULL);
+	if (myseq->Seqlistlength >= myseq->length)
+	{
+		cout << "当前表长已满请重新申请表长" << endl;
+
+	}
+	if (val2 > myseq->Seqlistlength - 1 && val2 < myseq->Seqlistlength + 1)
+	{
+		myseq->data[val2] = val;
+	}
+	else if(val2>=myseq->Seqlistlength+1)
+	{
+		cout << "插入位置非法！"<<endl;
+	}
+	if (val2<myseq->Seqlistlength)
+	{
+
+		int j = myseq->Seqlistlength;
+		int k = myseq->Seqlistlength-1;
+
+		for (int i = 0; i < myseq->Seqlistlength - val2; i++)
+		{
+
+			myseq->data[j] = myseq->data[k];
+			j--;
+			k--;
+
+		}
+		myseq->data[val2] = val;
+		myseq->Seqlistlength = myseq->Seqlistlength + 1;
+
+	}
+
+}
+
+
+int main()
+{
+	Seqlist myseq;
+	InitSeqlist(&myseq);
+	
+	for (int i=0; i < 6; i++)
+	{
+		myseq.data[i] = i;
+	}
+
+	intodata(&myseq, 20, 7);
+
+	for (int k = 0; k < 7; k++)
+	{
+
+
+		cout << myseq.data[k] << endl;
+
+	}
+
+	system("pause");
+}
